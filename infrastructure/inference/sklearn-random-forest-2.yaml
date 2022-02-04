@@ -1,0 +1,23 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: sklearn-random-forest-2
+  namespace: inference
+spec:
+  predictors:
+  - componentSpecs:
+    - spec:
+        containers:
+        - image: k3d-registry.localhost:5000/classifier:49ecd0a-7876
+          imagePullPolicy: Always
+          name: classifier
+    graph:
+      children: []
+      name: classifier
+      parameters:
+      - name: model_uri
+        type: STRING
+        value: mlflow/0/f34d52c8a8b64efd9abf968f47ec32f4/artifacts/model/model.pkl
+      type: MODEL
+    name: default
+    replicas: 1
